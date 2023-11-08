@@ -1,18 +1,21 @@
 import { useState } from 'react'
 import {InputBox} from './components'
 import useCurrencyInfo from './hooks/useCurrencyInfo'
+import seaImage from './images/sea.jpg'
 
 
 function App() {
 
-  const [amount, setAmount] = useState(0)
+  const [amount, setAmount] = useState(10)
   const [from, setFrom] = useState("usd")
-  const [to, setTo] = useState("inr")
+  const [to, setTo] = useState("npr")
   const [convertedAmount, setConvertedAmount] = useState(0)
 
   const currencyInfo = useCurrencyInfo(from)
+  //currencyInfo is an object which contains the convert rate from selected country to rest of other countries
 
   const options = Object.keys(currencyInfo)
+  
 
   const swap = () => {
     setFrom(to)
@@ -27,11 +30,13 @@ function App() {
 
   return (
     <div
+
         className="w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat"
         style={{
-            backgroundImage: `url('https://images.pexels.com/photos/3532540/pexels-photo-3532540.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
+            background: `url(${seaImage})`,
         }}
     >
+        <h1 className="text-3xl font-semibold text-gray-800">Currency converter: </h1>
         <div className="w-full">
             <div className="w-full max-w-md mx-auto border border-gray-60 rounded-lg p-5 backdrop-blur-sm bg-white/30">
                 <form
@@ -46,7 +51,7 @@ function App() {
                             label="From"
                             amount={amount}
                             currencyOptions={options}
-                            onCurrencyChange={(currency) => setAmount(amount)}
+                            onCurrencyChange={(amount) => setFrom(amount)}
                             selectCurrency={from}
                             onAmountChange={(amount) => setAmount(amount)}
                         />
@@ -66,7 +71,7 @@ function App() {
                             amount={convertedAmount}
                             currencyOptions={options}
                             onCurrencyChange={(currency) => setTo(currency)}
-                            selectCurrency={from}
+                            selectCurrency={to}
                             amountDisable
                         />
                     </div>
